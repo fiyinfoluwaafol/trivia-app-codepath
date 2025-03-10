@@ -16,13 +16,22 @@ class TriviaGameViewModel: ObservableObject {
     @Published var submitted = false
     @Published var remainingTime: Int = 30  // Timer set to 30 seconds for each game
     
+    // New property to store the shuffled options for each question
+    @Published var shuffledOptions: [UUID: [String]] = [:]
+    
     private var timerSubscription: AnyCancellable?
     
     // Fetch trivia questions from the API
     func fetchQuestions(numberOfQuestions: Int, category: String?, difficulty: String?, type: String?) {
         TriviaAPI.shared.fetchTrivia(numberOfQuestions: numberOfQuestions, category: category, difficulty: difficulty, type: type) { [weak self] questions in
-            self?.questions = questions
-            self?.startTimer()  // Start timer once questions are loaded
+            guard let self = self else { return }
+            self.questions = questions
+            // For each question, shuffle the answers once and store them.
+            for question in questions {
+                let options = (question.incorrect_answers + [question.correct_answer]).shuffled()
+                self.shuffledOptions[question.id] = options
+            }
+            self.startTimer()  // Start timer once questions are loaded
         }
     }
     

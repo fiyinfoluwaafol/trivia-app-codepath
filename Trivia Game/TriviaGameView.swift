@@ -35,6 +35,7 @@ struct TriviaGameView: View {
                             Text(question.question)
                                 .font(.headline)
                             
+                            // Retrieve the pre-shuffled answers from the view model
                             ForEach(shuffledAnswers(for: question), id: \.self) { answer in
                                 HStack {
                                     Text(answer)
@@ -79,11 +80,9 @@ struct TriviaGameView: View {
         .navigationTitle("Trivia Game")
     }
     
-    // Shuffle the answer options for a given question.
+    // Instead of shuffling every time, we now fetch the pre-shuffled options from the view model.
     func shuffledAnswers(for question: TriviaQuestion) -> [String] {
-        var answers = question.incorrect_answers
-        answers.append(question.correct_answer)
-        return answers.shuffled()
+        return viewModel.shuffledOptions[question.id] ?? []
     }
     
     // Provide background colors after submission:
