@@ -2,7 +2,7 @@
 
 Submitted by: **Fiyinfoluwa Afolayan**
 
-**Name of your app** is an app that ... [TODO] 
+**Trivia Game** is an app that allows players answer questions across various categories to test their knowledge. Users can track their scores, compete with friends, and enjoy a seamless quiz experience with an engaging UI.
 
 Time spent: **4** hours spent in total
 
